@@ -1,80 +1,93 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://localhost:8080/
 
-# anmed
+# File storage services
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+file storage is based upon a mongodb gridfs and contains following services to use
 
-## Questions Collection [/questions]
+## Upload file [/update]
 
-### List All Questions [GET]
+### upload a file [POST]
 
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
++ Request (multipart/form-data)
+  
+            
     + Body
 
+            Content-Disposition: form-data; name="file";
+            Content-Type: File
+           
++ Response 200 (application/json)
+
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "status": "ok"
+                "response body"": " assgined id of stored  file"
+            }
+
+## Download file [/download/{fileId}]
+
+
+### download file [GET]
+
++ Parameters
+    + fileId: '57c76aa676ee4314fcfb8dbd' (string) - id of file
+
++ Request (text/html)
+   
+    
++ Response 200 (application/json)
+
+            {
+                "status": "ok"
+                "content": "file"
+            }
+            
+## Get meta data for file [/meta/{fileId}]
+
+
+### meta from file [GET]
+
++ Parameters
+    + fileId: '57c76aa676ee4314fcfb8dbd' (string) - id of file
+
++ Request (text/html)
+   
+    
++ Response 200 (application/json)
+
+            {
+                "status": "ok"
+                "metaData": "some metad data as size , type etc."
+            }            
+
+## Create comment [/createComment]
+
+### create some comment [POST]
+
++ Request (text/html)
+  
+           
++ Response 200 (application/json)
+
+            {
+                "status": "ok"
+                "response body": " assgined id of created comment "
+            }
+
+## Get meta data for file [/assignComment/{commentId}/{fileId}]
+
+
+### assign file to comment [GET]
+
++ Parameters
+    + fileId: '57c76aa676ee4314fcfb8dbd' (string) - id of file
+    + commentId: '57c80829cdd0692b6cc9f779' (string) - id of comment
+
++ Request (text/html)
+   
+    
++ Response 200 (application/json)
+
+            {
+                "status": "ok"
             }
