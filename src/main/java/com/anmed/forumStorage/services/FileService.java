@@ -5,6 +5,8 @@ import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by adementiev on 2016-08-30.
@@ -17,4 +19,10 @@ public interface FileService {
      DBObject getFileMetaData(String fileId);
 
      void isUnique();
+
+     List<GridFSDBFile> getAllFileIds();
+
+     void removeFile(String fileId);
+
+     void removeFilesOlderThan(Date yesterday);
 }
