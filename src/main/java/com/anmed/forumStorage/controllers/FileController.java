@@ -27,6 +27,10 @@ public class FileController {
     @Autowired
     private FileStorageManager fileStorageManager;
 
+    /**
+     * @param file uploaded file
+     * @return id of stored document in gridfs
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String upload(@RequestParam MultipartFile file){
         try {
@@ -37,6 +41,12 @@ public class FileController {
         return "error occurred please check logs";
     }
 
+    /**
+     * downloading file by id
+     *
+     * @param fileId   id of file to retrieve
+     * @param response http servlet response
+     */
     @RequestMapping(value = "/download/{fileId}", method = RequestMethod.GET,produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void download(@PathVariable("fileId") String fileId, HttpServletResponse response){
         GridFSDBFile file = fileStorageManager.getFile(fileId);
